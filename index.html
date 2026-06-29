@@ -1,0 +1,1369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving</title>
+  <meta name="description" content="ECCV 2026 accepted paper project page for Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving.">
+  <style>
+    :root {
+      --bg: #f6f7f5;
+      --paper: #ffffff;
+      --ink: #111827;
+      --muted: #566272;
+      --line: #d9ded8;
+      --teal: #2f8f9d;
+      --teal-dark: #17606b;
+      --amber: #e3a43f;
+      --brick: #bf4b3f;
+      --blue: #2f5d9d;
+      --shadow: 0 18px 45px rgba(30, 41, 59, 0.10);
+      --radius: 8px;
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(246, 247, 245, 0.92);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      font-weight: 800;
+      color: var(--teal-dark);
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .hero {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 62px 24px 32px;
+      text-align: center;
+    }
+
+    .venue {
+      width: fit-content;
+      margin: 0 auto 18px;
+      padding: 7px 12px;
+      border: 1px solid rgba(47, 143, 157, 0.28);
+      border-radius: 999px;
+      background: rgba(47, 143, 157, 0.08);
+      color: var(--teal-dark);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 0 auto;
+      font-size: clamp(36px, 6vw, 68px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 840px;
+      margin: 22px auto 0;
+      color: var(--muted);
+      font-size: 19px;
+    }
+
+    .hero-stats {
+      max-width: 980px;
+      margin: 24px auto 0;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .hero-stat {
+      min-height: 86px;
+      padding: 14px 12px;
+      border: 1px solid rgba(47, 143, 157, 0.20);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.74);
+      text-align: center;
+    }
+
+    .hero-stat strong {
+      display: block;
+      color: var(--teal-dark);
+      font-size: 24px;
+      line-height: 1.05;
+      font-weight: 900;
+    }
+
+    .hero-stat span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+
+    .authors {
+      max-width: 980px;
+      margin: 28px auto 0;
+      color: #263142;
+      font-size: 17px;
+    }
+
+    .authors a {
+      text-decoration: none;
+      border-bottom: 1px solid rgba(47, 143, 157, 0.28);
+    }
+
+    .affiliations {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .links {
+      margin: 30px auto 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .link-button {
+      min-height: 46px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid rgba(17, 24, 39, 0.12);
+      border-radius: 8px;
+      background: #111827;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      box-shadow: 0 10px 22px rgba(17, 24, 39, 0.12);
+    }
+
+    .link-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 28px rgba(17, 24, 39, 0.16);
+      background: #0b1220;
+    }
+
+    .link-button svg {
+      width: 19px;
+      height: 19px;
+      flex: 0 0 auto;
+    }
+
+    .link-button.disabled {
+      background: #eef1ed;
+      color: #566272;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .link-button.disabled:hover {
+      transform: none;
+      background: #eef1ed;
+    }
+
+    .soon {
+      margin-left: 2px;
+      color: #7b8794;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .teaser {
+      max-width: 1180px;
+      margin: 30px auto 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .teaser img {
+      width: 100%;
+    }
+
+    .teaser .caption {
+      text-align: left;
+      background: #fff;
+    }
+
+    main {
+      overflow: hidden;
+    }
+
+    section {
+      padding: 64px 24px;
+    }
+
+    .section-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr);
+      gap: 34px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(27px, 4vw, 42px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .section-kicker {
+      margin: 0 0 10px;
+      color: var(--teal-dark);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .section-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .band {
+      background: var(--paper);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .insights {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .insight {
+      min-height: 190px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .insight strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .insight p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .paradigm-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .paradigm-chip {
+      min-height: 88px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .paradigm-chip strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--teal-dark);
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .paradigm-chip span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .accent-teal {
+      border-top: 4px solid var(--teal);
+    }
+
+    .accent-amber {
+      border-top: 4px solid var(--amber);
+    }
+
+    .accent-brick {
+      border-top: 4px solid var(--brick);
+    }
+
+    .figure-block {
+      margin: 28px 0 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      overflow: hidden;
+    }
+
+    .figure-block img {
+      width: 100%;
+      background: #fff;
+    }
+
+    .caption {
+      margin: 0;
+      padding: 12px 16px 15px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(310px, 0.95fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .steps {
+      display: grid;
+      gap: 13px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: rgba(47, 143, 157, 0.12);
+      color: var(--teal-dark);
+      font-weight: 900;
+    }
+
+    .step h3 {
+      margin: 0 0 5px;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .result-cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .result-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .metric {
+      display: block;
+      color: var(--teal-dark);
+      font-size: 32px;
+      line-height: 1.05;
+      font-weight: 900;
+    }
+
+    .result-card span:last-child {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .table-panel {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .table-title {
+      margin: 0;
+      padding: 16px 18px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 900;
+    }
+
+    .table-title small {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .table-caption {
+      margin: 0;
+      padding: 0 18px 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .table-caption strong {
+      color: var(--ink);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #e9ece7;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: left;
+      font-weight: 800;
+    }
+
+    th {
+      color: #344054;
+      background: #f7f8f6;
+      font-size: 13px;
+    }
+
+    table.dense {
+      min-width: 1040px;
+      font-size: 13px;
+    }
+
+    table.wide {
+      min-width: 1960px;
+      font-size: 12px;
+    }
+
+    table.navsim-v2-table {
+      table-layout: fixed;
+      min-width: 1540px;
+    }
+
+    table.navsim-v2-table th,
+    table.navsim-v2-table td {
+      padding: 8px 7px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    table.navsim-v2-table th:first-child,
+    table.navsim-v2-table td:first-child {
+      text-align: left;
+      white-space: normal;
+      line-height: 1.25;
+    }
+
+    table.navsim-v2-table col.method-col {
+      width: 13%;
+    }
+
+    table.navsim-v2-table col.stage-metric-col {
+      width: 4.55%;
+    }
+
+    table.navsim-v2-table col.epdms-col {
+      width: 5.1%;
+    }
+
+    table.compact {
+      min-width: 900px;
+    }
+
+    table.nuscenes-table th,
+    table.nuscenes-table td {
+      text-align: center;
+      width: 7.5%;
+      vertical-align: middle;
+    }
+
+    table.nuscenes-table th:first-child,
+    table.nuscenes-table td:first-child {
+      width: 18%;
+      text-align: left;
+    }
+
+    table.nuscenes-table th:nth-child(2),
+    table.nuscenes-table td:nth-child(2) {
+      width: 24%;
+      text-align: center;
+      white-space: normal;
+    }
+
+    table.nuscenes-table {
+      table-layout: fixed;
+      min-width: 1180px;
+    }
+
+    table.nuscenes-table .method-col {
+      width: 18%;
+    }
+
+    table.nuscenes-table .aux-col {
+      width: 24%;
+    }
+
+    table.nuscenes-table .metric-col {
+      width: 6.5%;
+    }
+
+    table.nuscenes-table .fps-col {
+      width: 6%;
+    }
+
+    table.dense th,
+    table.dense td,
+    table.wide th,
+    table.wide td {
+      padding: 9px 10px;
+    }
+
+    thead .super th {
+      text-align: center;
+      background: #eef4f4;
+      color: var(--teal-dark);
+      font-weight: 900;
+    }
+
+    tr.category-row td {
+      text-align: center !important;
+      background: #f0edf5;
+      color: #4b3f5d;
+      font-weight: 900 !important;
+      letter-spacing: 0;
+    }
+
+    tr.highlight {
+      background: rgba(47, 143, 157, 0.10);
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .gain {
+      color: var(--teal-dark);
+      font-weight: 900;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+
+    .visual-head {
+      margin-top: 56px;
+    }
+
+    .visual-grid .figure-block {
+      margin-top: 0;
+    }
+
+    .visual-half {
+      grid-column: span 6;
+    }
+
+    .visual-wide {
+      grid-column: 1 / -1;
+    }
+
+    .bibtex {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #0f172a;
+      color: #e5edf6;
+      overflow: hidden;
+    }
+
+    .bibtex pre {
+      margin: 0;
+      padding: 22px;
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      min-height: 34px;
+      padding: 0 11px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.10);
+      color: #fff;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .copy-button:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    footer {
+      padding: 36px 24px 54px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .nav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .hero-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-head,
+      .method-grid,
+      .visual-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-wide {
+        grid-column: auto;
+      }
+
+      .visual-half {
+        grid-column: auto;
+      }
+
+      .insights,
+      .paradigm-grid,
+      .result-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero {
+        padding-top: 42px;
+      }
+
+      .subtitle {
+        font-size: 17px;
+      }
+
+      .authors {
+        font-size: 15px;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .links {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .link-button {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .insights,
+      .paradigm-grid,
+      .result-cards {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 48px 18px;
+      }
+
+      .hero,
+      .nav-inner {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .metric {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="brand" href="#">TE-Aware E2E Driving</a>
+      <div class="nav-links">
+        <a href="#overview">Motivation</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#visualizations">Visualizations</a>
+        <a href="#bibtex">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <p class="venue">ECCV 2026 Accepted Paper</p>
+    <h1>Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving</h1>
+    <p class="subtitle">
+      We study traffic-element awareness across <strong>4 Benchmarks</strong> (open-loop and closed-loop) and <strong>6</strong> representative planners, covering perception-planning, VLM/VLA-based, regression-based, diffusion-based, and scoring-based end-to-end driving paradigms.
+    </p>
+
+
+    <div class="authors">
+      Zongzheng Zhang<sup>1,*</sup>,
+      <a href="https://www.researchgate.net/scientific-contributions/Jijun-Wang-2277544297" target="_blank" rel="noopener">Jijun Wang</a><sup>1,*</sup>,
+      <a href="https://sainingzhang.github.io/" target="_blank" rel="noopener">Saining Zhang</a><sup>1</sup>,
+      Shuo Wang<sup>2</sup>,
+      Yiru Wang<sup>2</sup>,
+      Hai Yang<sup>2</sup>,
+      Yang Chen<sup>2</sup>,
+      <br>
+      <a href="https://heng-yuwen.github.io/" target="_blank" rel="noopener">Yuwen Heng</a><sup>2</sup>,
+      <a href="https://scholar.google.com/citations?user=lTMSUYEAAAAJ&amp;hl=en" target="_blank" rel="noopener">Hao Sun</a><sup>2</sup>,
+      <a href="https://peterjaq.github.io/" target="_blank" rel="noopener">Anqing Jiang</a><sup>2</sup>,
+      <a href="https://sites.google.com/view/fromandto" target="_blank" rel="noopener">Hao Zhao</a><sup>1,&dagger;</sup>
+      <div class="affiliations">
+        <sup>1</sup>Institute for AI Industry Research (AIR), Tsinghua University, Beijing, China<br>
+        <sup>2</sup>Bosch Corporate Research, Shanghai, China<br>
+        <sup>*</sup>Equal contribution &nbsp;&nbsp; <sup>&dagger;</sup>Corresponding author
+      </div>
+    </div>
+
+    <div class="links" aria-label="Paper links">
+      <a class="link-button disabled" href="#" aria-disabled="true" title="ArXiv link will be added after public release">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+        ArXiv <span class="soon">soon</span>
+      </a>
+      <a class="link-button" href="E2E_3D_traffic_light.pdf" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        PDF
+      </a>
+      <a class="link-button disabled" href="#" aria-disabled="true" title="Code link will be added after public release">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
+        Code <span class="soon">soon</span>
+      </a>
+      <a class="link-button disabled" href="#" aria-disabled="true" title="Dataset link will be added after public release">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>
+        Dataset <span class="soon">soon</span>
+      </a>
+    </div>
+
+    <figure class="teaser">
+      <img src="assets/project-page/teaser.png" alt="Teaser showing traffic elements, dataset prevalence, and planning improvements across benchmarks.">
+      <figcaption class="caption">Traffic elements are frequent in driving scenes and provide rule-critical cues that consistently improve planning across open-loop and closed-loop benchmarks.</figcaption>
+    </figure>
+  </header>
+
+  <main>
+    <section id="overview" class="band">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Motivation</p>
+            <h2>Traffic elements are rule-critical, common, and under-modeled.</h2>
+          </div>
+          <p class="section-copy">
+            End-to-end driving models often emphasize dynamic agents and dense geometry, while traffic lights and road signs directly constrain legal maneuvers. This work builds a unified 3D traffic-element infrastructure and studies whether TE awareness transfers across planners, datasets, and evaluation protocols.
+          </p>
+        </div>
+
+        <div class="insights">
+          <article class="insight accent-teal">
+            <strong>Traffic elements are pervasive.</strong>
+            <p>59.1% of nuScenes training scenes, 58.3% of nuScenes validation scenes, and 65.1% of NAVSIM-v1 scenes contain traffic elements.</p>
+          </article>
+          <article class="insight accent-amber">
+            <strong>The integration is plug-and-play.</strong>
+            <p>A lightweight 3D TE auxiliary task and optional topology conditioning can be added to existing E2E planners with minimal architecture changes.</p>
+          </article>
+          <article class="insight accent-brick">
+            <strong>The gains are consistent.</strong>
+            <p>The method improves regression, diffusion, scoring, VLM/VLA-style, and perception-planning systems across open-loop and closed-loop benchmarks.</p>
+          </article>
+        </div>
+
+        <div class="paradigm-grid" aria-label="Evaluated end-to-end driving paradigms">
+          <div class="paradigm-chip"><strong>Perception-planning</strong><span>VAD and classical E2E systems on nuScenes / Bench2Drive.</span></div>
+          <div class="paradigm-chip"><strong>VLM / VLA</strong><span>Orion-style vision-language-action planning.</span></div>
+          <div class="paradigm-chip"><strong>Regression</strong><span>LTF-style direct trajectory regression.</span></div>
+          <div class="paradigm-chip"><strong>Diffusion</strong><span>DiffusionDrive-style generative planning.</span></div>
+          <div class="paradigm-chip"><strong>Scoring</strong><span>DrivoR-style trajectory proposal and ranking.</span></div>
+          <div class="paradigm-chip"><strong>Closed-loop</strong><span>CARLA Bench2Drive evaluation with real planner rollouts.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="method">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Method</p>
+            <h2>Lift traffic elements into 3D, then route them into planning.</h2>
+          </div>
+          <p class="section-copy">
+            The pipeline first constructs 3D traffic-element pseudo-labels from 2D detection, monocular depth, and LiDAR geometry. During planner training, TE supervision encourages BEV or vision queries to encode sparse but decision-critical rule cues. When topology is available, ego-centric lane and TE relations are encoded as structured language and fused into the planning decoder.
+          </p>
+        </div>
+
+        <div class="method-grid">
+          <figure class="figure-block">
+            <img src="assets/project-page/method.png" alt="Method overview for 3D traffic element extraction, auxiliary supervision, and topology conditioning.">
+            <figcaption class="caption">Overview of 3D TE extraction and plug-and-play TE/topology conditioning.</figcaption>
+          </figure>
+          <div class="steps">
+            <article class="step">
+              <div class="step-number">1</div>
+              <div>
+                <h3>Construct 3D traffic elements</h3>
+                <p>Combine front-view TE detection, depth estimation, camera calibration, and LiDAR evidence to obtain 3D TE center points.</p>
+              </div>
+            </article>
+            <article class="step">
+              <div class="step-number">2</div>
+              <div>
+                <h3>Add lightweight TE supervision</h3>
+                <p>Supervise TE location with L1 loss and category with focal loss, alongside the planner's original auxiliary tasks.</p>
+              </div>
+            </article>
+            <article class="step">
+              <div class="step-number">3</div>
+              <div>
+                <h3>Filter ego-relevant topology</h3>
+                <p>Use LCLC and LCTE relations to keep the centerlines and traffic elements that actually govern the ego lane.</p>
+              </div>
+            </article>
+            <article class="step">
+              <div class="step-number">4</div>
+              <div>
+                <h3>Condition the planning decoder</h3>
+                <p>Encode topology as structured language and concatenate topology queries with TE-enhanced BEV or vision queries.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="results" class="band">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Main Experiments</p>
+            <h2>Stable improvements across multiple end-to-end driving paradigms.</h2>
+          </div>
+          <p class="section-copy">
+            The main results show that traffic-element awareness improves trajectory accuracy, rule compliance, and closed-loop driving score across perception-planning, VLM/VLA, regression-based, diffusion-based, and scoring-based planners. The project page reports the primary experimental results only; ablation studies are intentionally omitted.
+          </p>
+        </div>
+
+        <div class="result-cards">
+          <article class="result-card">
+            <span class="metric">57.9</span>
+            <span>Best NAVSIM-v2 EPDMS with the scoring-based DrivoR + SimScale + Ours setting.</span>
+          </article>
+          <article class="result-card">
+            <span class="metric">6</span>
+            <span>Representative planners covered across perception-planning, VLM/VLA, regression, diffusion, scoring, and closed-loop systems.</span>
+          </article>
+          <article class="result-card">
+            <span class="metric">0.60</span>
+            <span>nuScenes VAD + Ours average L2, reduced from 0.72 while keeping real-time-friendly FPS.</span>
+          </article>
+          <article class="result-card">
+            <span class="metric">+14.1</span>
+            <span>Bench2Drive driving-score gain for VAD after adding TE awareness and topology.</span>
+          </article>
+        </div>
+
+        <div class="table-panel">
+          <p class="table-title">nuScenes Planning <small>L2 and collision rate lower are better; FPS higher is better</small></p>
+          <p class="table-caption"><strong>Caption.</strong> nuScenes compares LiDAR-based methods, camera-based E2E planners, and VLM/VLA-style planners under the standard open-loop protocol. Highlighted rows isolate the plug-and-play traffic-element and topology signals, showing consistent gains for both VAD and Orion.</p>
+          <div class="table-scroll">
+            <table class="dense nuscenes-table">
+              <colgroup>
+                <col class="method-col">
+                <col class="aux-col">
+                <col class="metric-col"><col class="metric-col"><col class="metric-col"><col class="metric-col">
+                <col class="metric-col"><col class="metric-col"><col class="metric-col"><col class="metric-col">
+                <col class="fps-col">
+              </colgroup>
+              <thead>
+                <tr class="super">
+                  <th rowspan="2">Method</th>
+                  <th rowspan="2">Auxiliary Task</th>
+                  <th colspan="4">L2 (m) ↓</th>
+                  <th colspan="4">Collision Rate (%) ↓</th>
+                  <th rowspan="2">FPS ↑</th>
+                </tr>
+                <tr>
+                  <th>1s</th><th>2s</th><th>3s</th><th>Avg.</th>
+                  <th>1s</th><th>2s</th><th>3s</th><th>Avg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="category-row"><td colspan="11">LiDAR-based Methods</td></tr>
+                <tr><td>NMP◇</td><td>Det + Motion</td><td>0.53</td><td>1.25</td><td>2.67</td><td>1.48</td><td>0.04</td><td>0.12</td><td>0.87</td><td>0.34</td><td>&mdash;</td></tr>
+                <tr><td>FF◇</td><td>FreeSpace</td><td>0.55</td><td>1.20</td><td>2.54</td><td>1.43</td><td>0.06</td><td>0.17</td><td>1.07</td><td>0.43</td><td>&mdash;</td></tr>
+                <tr><td>EO◇</td><td>FreeSpace</td><td>0.67</td><td>1.36</td><td>2.78</td><td>1.60</td><td>0.04</td><td>0.09</td><td>0.88</td><td>0.33</td><td>&mdash;</td></tr>
+                <tr class="category-row"><td colspan="11">Camera-based End-to-End Planning Methods</td></tr>
+                <tr><td>ST-P3</td><td>Det + Map + Depth</td><td>1.33</td><td>2.11</td><td>2.90</td><td>2.11</td><td>0.23</td><td>0.62</td><td>1.27</td><td>0.71</td><td>1.6</td></tr>
+                <tr><td>UniAD</td><td>Det + Track + Map + Motion + Occ</td><td>0.44</td><td>0.67</td><td>0.96</td><td>0.69</td><td>0.04</td><td>0.08</td><td>0.23</td><td>0.12</td><td>1.8</td></tr>
+                <tr><td>VAD-Tiny</td><td>Det + Map + Motion</td><td>0.46</td><td>0.76</td><td>1.12</td><td>0.78</td><td>0.21</td><td>0.35</td><td>0.58</td><td>0.38</td><td>16.8</td></tr>
+                <tr><td>BEV-Planner</td><td>None</td><td>0.28</td><td>0.42</td><td>0.68</td><td>0.46</td><td>0.04</td><td>0.37</td><td>1.07</td><td>0.49</td><td>&mdash;</td></tr>
+                <tr><td>PARA-Drive</td><td>Det + Track + Map + Motion + Occ</td><td>0.25</td><td>0.46</td><td>0.74</td><td>0.48</td><td>0.14</td><td>0.23</td><td>0.39</td><td>0.25</td><td>5.0</td></tr>
+                <tr><td>LAW</td><td>None</td><td>0.26</td><td>0.57</td><td>1.01</td><td>0.61</td><td>0.14</td><td>0.21</td><td>0.54</td><td>0.30</td><td>19.5</td></tr>
+                <tr><td>GenAD</td><td>Det + Map + Motion</td><td>0.28</td><td>0.49</td><td>0.78</td><td>0.52</td><td>0.08</td><td>0.14</td><td>0.34</td><td>0.19</td><td>6.7</td></tr>
+                <tr><td>SparseDrive</td><td>Det + Track + Map + Motion</td><td>0.29</td><td>0.58</td><td>0.96</td><td>0.61</td><td>0.01</td><td>0.05</td><td>0.18</td><td>0.08</td><td>9.0</td></tr>
+                <tr><td>UAD</td><td>Det</td><td>0.28</td><td>0.41</td><td>0.65</td><td>0.45</td><td>0.01</td><td><strong>0.03</strong></td><td>0.14</td><td>0.06</td><td>7.2</td></tr>
+                <tr><td>MomAD</td><td>Det + Track + Map + Motion</td><td>0.31</td><td>0.57</td><td>0.91</td><td>0.60</td><td>0.01</td><td>0.05</td><td>0.22</td><td>0.09</td><td>7.8</td></tr>
+                <tr class="category-row"><td colspan="11">Perception-planning Baseline with TE / Topology</td></tr>
+                <tr>
+                  <td>VAD-Base</td>
+                  <td>Det + Map + Motion</td>
+                  <td>0.41</td>
+                  <td>0.70</td>
+                  <td>1.05</td>
+                  <td>0.72</td>
+                  <td>0.07</td>
+                  <td>0.17</td>
+                  <td>0.41</td>
+                  <td>0.22</td>
+                  <td>5.7</td>
+                </tr>
+                <tr class="highlight">
+                  <td>VAD + TE</td>
+                  <td>Det + Map + Motion</td>
+                  <td>0.36</td>
+                  <td>0.61</td>
+                  <td>0.92</td>
+                  <td>0.63</td>
+                  <td>0.09</td>
+                  <td>0.14</td>
+                  <td>0.28</td>
+                  <td>0.17</td>
+                  <td>5.7</td>
+                </tr>
+                <tr class="highlight">
+                  <td>VAD + Topo</td>
+                  <td>Det + Map + Motion + Topo</td>
+                  <td>0.34</td>
+                  <td>0.59</td>
+                  <td>0.92</td>
+                  <td>0.62</td>
+                  <td>0.05</td>
+                  <td>0.15</td>
+                  <td>0.29</td>
+                  <td>0.16</td>
+                  <td>5.4</td>
+                </tr>
+                <tr class="highlight">
+                  <td>VAD + Ours</td>
+                  <td>Det + Map + Motion + Topo</td>
+                  <td>0.34</td>
+                  <td>0.56</td>
+                  <td>0.90</td>
+                  <td><strong>0.60</strong></td>
+                  <td>0.04</td>
+                  <td>0.21</td>
+                  <td>0.26</td>
+                  <td>0.17</td>
+                  <td>5.4</td>
+                </tr>
+                <tr class="category-row"><td colspan="11">VLM / VLA-based Methods</td></tr>
+                <tr><td>Qwen-2.5-VL</td><td>Scene Understanding</td><td>0.46</td><td>1.33</td><td>2.55</td><td>1.45</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>0.8</td></tr>
+                <tr><td>Senna</td><td>Det + Motion</td><td>0.37</td><td>0.54</td><td>0.86</td><td>0.59</td><td>0.09</td><td>0.12</td><td>0.33</td><td>0.18</td><td>1.6</td></tr>
+                <tr><td>DriveVLM</td><td>Scene Understanding</td><td>0.18</td><td>0.34</td><td>0.68</td><td>0.40</td><td>0.10</td><td>0.22</td><td>0.45</td><td>0.27</td><td>&mdash;</td></tr>
+                <tr><td>OmniDrive</td><td>Scene Understanding</td><td>0.14</td><td>0.29</td><td>0.55</td><td>0.33</td><td>0.00</td><td>0.13</td><td>0.78</td><td>0.30</td><td>1.2</td></tr>
+                <tr><td>EMMA</td><td>Scene Understanding</td><td>0.14</td><td>0.29</td><td>0.54</td><td>0.32</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+                <tr><td>ImpromptuVLA</td><td>Scene Understanding</td><td>0.13</td><td>0.27</td><td>0.53</td><td><strong>0.30</strong></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>0.9</td></tr>
+                <tr>
+                  <td>Orion†</td>
+                  <td>Det + Motion</td>
+                  <td>0.17</td>
+                  <td>0.31</td>
+                  <td>0.55</td>
+                  <td>0.34</td>
+                  <td>0.05</td>
+                  <td>0.25</td>
+                  <td>0.80</td>
+                  <td>0.37</td>
+                  <td>0.9</td>
+                </tr>
+                <tr class="highlight"><td>Orion† + TE</td><td>Det + Motion</td><td>0.14</td><td>0.27</td><td>0.47</td><td>0.29</td><td>0.06</td><td>0.20</td><td>0.55</td><td>0.27</td><td>0.9</td></tr>
+                <tr class="highlight"><td>Orion† + Topo</td><td>Det + Motion + Topo</td><td>0.12</td><td>0.25</td><td>0.45</td><td>0.27</td><td>0.04</td><td>0.21</td><td>0.50</td><td>0.25</td><td>0.8</td></tr>
+                <tr class="highlight">
+                  <td>Orion† + Ours</td>
+                  <td>Det + Motion + Topo</td>
+                  <td>0.11</td>
+                  <td>0.25</td>
+                  <td>0.43</td>
+                  <td><strong>0.26</strong></td>
+                  <td>0.04</td>
+                  <td>0.19</td>
+                  <td>0.47</td>
+                  <td><strong>0.23</strong></td>
+                  <td>0.8</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="table-panel">
+          <p class="table-title">NAVSIM-v1 navtest <small>Camera-only methods; all metrics higher are better</small></p>
+          <p class="table-caption"><strong>Caption.</strong> NAVSIM-v1 reports the official PDMS and its safety/compliance components. The table keeps the paper's method taxonomy and shows that TE supervision improves regression-based, diffusion-based, and scoring-based planners, with further gains when combined with SimScale data.</p>
+          <div class="table-scroll">
+            <table class="dense">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Backbone</th>
+                  <th>Venue</th>
+                  <th>NC ↑</th>
+                  <th>DAC ↑</th>
+                  <th>TTC ↑</th>
+                  <th>Comf. ↑</th>
+                  <th>EP ↑</th>
+                  <th>PDMS ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="category-row"><td colspan="9">Reference / Rule-based Upper Context</td></tr>
+                <tr><td>PDM-Closed</td><td>&mdash;</td><td>PMLR'23</td><td>94.6</td><td>99.8</td><td>89.9</td><td>86.9</td><td>99.9</td><td>89.1</td></tr>
+                <tr><td>Human driver</td><td>&mdash;</td><td>NeurIPS'24</td><td>100</td><td>100</td><td>100</td><td>99.9</td><td>87.5</td><td><strong>94.8</strong></td></tr>
+                <tr class="category-row"><td colspan="9">Published Camera-only E2E Methods</td></tr>
+                <tr><td>Ego-stat. MLP</td><td>&mdash;</td><td>NeurIPS'24</td><td>93.0</td><td>77.3</td><td>83.6</td><td>100</td><td>62.8</td><td>65.6</td></tr>
+                <tr><td>UniAD</td><td>ResNet34</td><td>CVPR'23</td><td>97.8</td><td>91.9</td><td>92.9</td><td>100</td><td>78.8</td><td>83.4</td></tr>
+                <tr><td>VAD-v2</td><td>ResNet34</td><td>ICLR'26</td><td>98.1</td><td>94.8</td><td>94.3</td><td>100</td><td>80.6</td><td>86.2</td></tr>
+                <tr><td>ReCogDrive</td><td>InternViT</td><td>ICLR'26</td><td>97.9</td><td>97.3</td><td>94.9</td><td>100</td><td>87.3</td><td>90.8</td></tr>
+                <tr><td>Hydra-MDP</td><td>ResNet34</td><td>arXiv'24</td><td>98.3</td><td>96.0</td><td>94.6</td><td>100</td><td>78.7</td><td>86.5</td></tr>
+                <tr><td>Centaur</td><td>ResNet34</td><td>arXiv'25</td><td>99.5</td><td>98.9</td><td>98.0</td><td>100</td><td>85.9</td><td><strong>92.6</strong></td></tr>
+                <tr><td>DriveSuprim</td><td>ResNet34</td><td>AAAI'26</td><td>97.8</td><td>97.3</td><td>93.6</td><td>100</td><td>86.7</td><td>89.9</td></tr>
+                <tr class="category-row"><td colspan="9">Regression-based Planner</td></tr>
+                <tr><td>LTF</td><td>ResNet34</td><td>TPAMI'22</td><td>97.8</td><td>92.8</td><td>93.3</td><td>100</td><td>78.9</td><td>84.1</td></tr>
+                <tr class="highlight"><td>LTF + Ours</td><td>ResNet34</td><td>ECCV'26</td><td>97.8</td><td>93.9</td><td>93.8</td><td>100</td><td>79.8</td><td>85.2 <span class="gain">+1.1</span></td></tr>
+                <tr class="highlight"><td>LTF (+SimScale)</td><td>ResNet34</td><td>ECCV'26</td><td>98.3</td><td>95.6</td><td>94.6</td><td>100</td><td>81.3</td><td>87.3 <span class="gain">+3.2</span></td></tr>
+                <tr class="highlight"><td>LTF (+SimScale) + Ours</td><td>ResNet34</td><td>ECCV'26</td><td>98.2</td><td>95.9</td><td>94.5</td><td>100</td><td>82.0</td><td><strong>87.6</strong> <span class="gain">+3.5</span></td></tr>
+                <tr class="category-row"><td colspan="9">Diffusion-based Planner</td></tr>
+                <tr><td>DiffusionDrive</td><td>ResNet34</td><td>CVPR'25</td><td>97.9</td><td>94.6</td><td>93.6</td><td>100</td><td>80.7</td><td>86.0</td></tr>
+                <tr class="highlight"><td>DiffusionDrive + Ours</td><td>ResNet34</td><td>ECCV'26</td><td>98.1</td><td>96.0</td><td>94.2</td><td>100</td><td>82.3</td><td>87.7 <span class="gain">+1.7</span></td></tr>
+                <tr class="highlight"><td>DiffusionDrive (+SimScale)</td><td>ResNet34</td><td>ECCV'26</td><td>98.5</td><td>97.0</td><td>94.7</td><td>100</td><td>83.1</td><td>88.9 <span class="gain">+2.9</span></td></tr>
+                <tr class="highlight"><td>DiffusionDrive (+SimScale) + Ours</td><td>ResNet34</td><td>ECCV'26</td><td>98.6</td><td>97.2</td><td>94.7</td><td>100</td><td>83.5</td><td><strong>89.1</strong> <span class="gain">+3.1</span></td></tr>
+                <tr class="category-row"><td colspan="9">Scoring-based Planner</td></tr>
+                <tr><td>DrivoR</td><td>ViT-S</td><td>CVPR'26</td><td>98.9</td><td>98.3</td><td>96.2</td><td>100</td><td>89.1</td><td>93.1</td></tr>
+                <tr class="highlight"><td>DrivoR + Ours</td><td>ViT-S</td><td>ECCV'26</td><td>99.0</td><td>98.7</td><td>96.9</td><td>100</td><td>90.8</td><td>94.4 <span class="gain">+1.3</span></td></tr>
+                <tr class="highlight"><td>DrivoR (+SimScale)</td><td>ViT-S</td><td>ECCV'26</td><td>99.1</td><td>99.2</td><td>96.9</td><td>100</td><td>91.6</td><td>94.6 <span class="gain">+1.5</span></td></tr>
+                <tr class="highlight"><td>DrivoR (+SimScale) + Ours</td><td>ViT-S</td><td>ECCV'26</td><td>99.7</td><td>99.7</td><td>98.1</td><td>100</td><td>92.2</td><td><strong>95.1</strong> <span class="gain">+2.0</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="table-panel">
+          <p class="table-title">NAVSIM-v2 navhard-two-stage <small>All Stage 1/Stage 2 metrics and EPDMS higher are better</small></p>
+          <p class="table-caption"><strong>Caption.</strong> NAVSIM-v2 uses the harder two-stage EPDMS evaluation, exposing compounding-error effects. The grouped rows follow the paper and highlight that traffic-element awareness improves three different planning paradigms: regression (+47%), diffusion (+29%), and scoring (+20%) in the strongest data-scaled settings.</p>
+          <div class="table-scroll">
+            <table class="wide navsim-v2-table">
+              <colgroup>
+                <col class="method-col">
+                <col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col">
+                <col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col"><col class="stage-metric-col">
+                <col class="epdms-col">
+              </colgroup>
+              <thead>
+                <tr class="super">
+                  <th rowspan="2">Method</th>
+                  <th colspan="9">Stage 1</th>
+                  <th colspan="9">Stage 2</th>
+                  <th rowspan="2">EPDMS ↑</th>
+                </tr>
+                <tr>
+                  <th>NC</th><th>DAC</th><th>DDC</th><th>TLC</th><th>EP</th><th>TTC</th><th>LK</th><th>HC</th><th>EC</th>
+                  <th>NC</th><th>DAC</th><th>DDC</th><th>TLC</th><th>EP</th><th>TTC</th><th>LK</th><th>HC</th><th>EC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="category-row"><td colspan="20">Existing Methods</td></tr>
+                <tr><td>ZTRS†</td><td>98.9</td><td>97.6</td><td>100</td><td>100</td><td>66.7</td><td>98.9</td><td>96.2</td><td>96.7</td><td>44.0</td><td>91.1</td><td>90.4</td><td>95.8</td><td>99.0</td><td>63.6</td><td>89.8</td><td>60.4</td><td>97.6</td><td>66.1</td><td>45.5</td></tr>
+                <tr><td>DiffVLA†</td><td>95.7</td><td>99.2</td><td>100</td><td>100</td><td>85.9</td><td>96.4</td><td>97.1</td><td>95.0</td><td>84.2</td><td>81.2</td><td>88.8</td><td>94.6</td><td>99.0</td><td>86.0</td><td>76.4</td><td>59.8</td><td>98.6</td><td>80.4</td><td>45.0</td></tr>
+                <tr><td>GTRS-Dense†</td><td>98.9</td><td>94.9</td><td>99.1</td><td>100</td><td>76.1</td><td>98.4</td><td>93.8</td><td>94.9</td><td>37.8</td><td>89.9</td><td>90.5</td><td>94.1</td><td>99.3</td><td>77.6</td><td>88.5</td><td>56.0</td><td>92.0</td><td>30.2</td><td>41.9</td></tr>
+                <tr><td>GuideFlow†</td><td>97.8</td><td>97.1</td><td>100</td><td>100</td><td>81.4</td><td>98.5</td><td>91.4</td><td>92.8</td><td>34.2</td><td>87.3</td><td>92.3</td><td>98.0</td><td>96.9</td><td>75.8</td><td>85.5</td><td>59.3</td><td>95.4</td><td>53.5</td><td>46.7</td></tr>
+                <tr class="category-row"><td colspan="20">Regression-based Planner</td></tr>
+                <tr><td>LTF</td><td>96.2</td><td>79.5</td><td>99.1</td><td>99.5</td><td>84.1</td><td>95.1</td><td>94.2</td><td>97.5</td><td>79.1</td><td>77.7</td><td>70.2</td><td>84.2</td><td>98.0</td><td>85.1</td><td>75.6</td><td>45.4</td><td>95.7</td><td>75.9</td><td>25.1</td></tr>
+                <tr class="highlight"><td>LTF + Ours</td><td>96.4</td><td>79.8</td><td>98.9</td><td>99.6</td><td>84.2</td><td>95.8</td><td>93.8</td><td>97.5</td><td>78.2</td><td>80.9</td><td>71.6</td><td>84.8</td><td>98.9</td><td>85.2</td><td>77.7</td><td>47.0</td><td>96.1</td><td>76.3</td><td>28.9 <span class="gain">↑15%</span></td></tr>
+                <tr class="highlight"><td>LTF (+SimScale)</td><td>96.1</td><td>85.3</td><td>99.4</td><td>99.3</td><td>84.7</td><td>94.7</td><td>93.5</td><td>97.5</td><td>77.3</td><td>85.5</td><td>66.9</td><td>91.5</td><td>99.1</td><td>93.0</td><td>81.1</td><td>58.2</td><td>95.1</td><td>42.9</td><td>33.6 <span class="gain">↑33%</span></td></tr>
+                <tr class="highlight"><td>LTF (+SimScale) + Ours</td><td>97.0</td><td>85.3</td><td>99.7</td><td>99.6</td><td>84.2</td><td>96.2</td><td>96.0</td><td>97.6</td><td>77.3</td><td>88.1</td><td>71.8</td><td>93.1</td><td>99.0</td><td>86.7</td><td>83.0</td><td>54.0</td><td>95.2</td><td>55.4</td><td><strong>36.9</strong> <span class="gain">↑47%</span></td></tr>
+                <tr class="category-row"><td colspan="20">Diffusion-based Planner</td></tr>
+                <tr><td>DiffusionDrive</td><td>96.7</td><td>86.7</td><td>98.7</td><td>99.3</td><td>84.3</td><td>94.9</td><td>95.3</td><td>97.6</td><td>77.8</td><td>78.9</td><td>72.4</td><td>84.2</td><td>98.2</td><td>87.1</td><td>74.9</td><td>47.3</td><td>96.2</td><td>71.0</td><td>29.4</td></tr>
+                <tr class="highlight"><td>DiffusionDrive + Ours</td><td>97.1</td><td>86.9</td><td>98.8</td><td>99.6</td><td>84.2</td><td>95.1</td><td>95.6</td><td>97.6</td><td>79.5</td><td>80.2</td><td>74.0</td><td>85.0</td><td>98.1</td><td>86.3</td><td>77.2</td><td>48.4</td><td>96.6</td><td>74.4</td><td>32.7 <span class="gain">↑11%</span></td></tr>
+                <tr class="highlight"><td>DiffusionDrive (+SimScale)</td><td>97.2</td><td>88.0</td><td>99.2</td><td>99.3</td><td>82.8</td><td>96.7</td><td>98.0</td><td>97.5</td><td>58.2</td><td>86.7</td><td>72.1</td><td>93.0</td><td>98.8</td><td>92.1</td><td>80.6</td><td>61.1</td><td>95.3</td><td>33.1</td><td>35.8 <span class="gain">↑12%</span></td></tr>
+                <tr class="highlight"><td>DiffusionDrive (+SimScale) + Ours</td><td>97.1</td><td>88.4</td><td>99.3</td><td>99.3</td><td>84.1</td><td>95.6</td><td>98.2</td><td>97.6</td><td>72.9</td><td>83.7</td><td>76.3</td><td>92.5</td><td>98.9</td><td>90.3</td><td>78.9</td><td>57.7</td><td>94.4</td><td>56.1</td><td><strong>37.9</strong> <span class="gain">↑29%</span></td></tr>
+                <tr class="category-row"><td colspan="20">Scoring-based Planner</td></tr>
+                <tr><td>DrivoR</td><td>98.8</td><td>95.1</td><td>98.9</td><td>100</td><td>72.6</td><td>98.7</td><td>94.0</td><td>97.6</td><td>73.3</td><td>90.2</td><td>88.4</td><td>91.9</td><td>98.6</td><td>70.0</td><td>88.0</td><td>50.1</td><td>98.5</td><td>76.2</td><td>48.3</td></tr>
+                <tr class="highlight"><td>DrivoR + Ours</td><td>98.9</td><td>94.9</td><td>99.1</td><td>100</td><td>75.1</td><td>98.9</td><td>93.9</td><td>97.5</td><td>74.4</td><td>91.9</td><td>91.4</td><td>96.1</td><td>99.3</td><td>74.6</td><td>87.5</td><td>56.0</td><td>97.0</td><td>78.5</td><td>51.8 <span class="gain">↑7.2%</span></td></tr>
+                <tr class="highlight"><td>DrivoR (+SimScale)</td><td>99.1</td><td>98.2</td><td>99.3</td><td>99.8</td><td>75.4</td><td>98.7</td><td>94.9</td><td>97.6</td><td>70.2</td><td>92.3</td><td>91.6</td><td>97.3</td><td>99.1</td><td>75.7</td><td>90.6</td><td>56.1</td><td>98.4</td><td>44.7</td><td>54.6 <span class="gain">↑13%</span></td></tr>
+                <tr class="highlight"><td>DrivoR (+SimScale) + Ours</td><td>99.5</td><td>98.2</td><td>99.3</td><td>100</td><td>76.1</td><td>99.0</td><td>94.1</td><td>97.9</td><td>72.6</td><td>93.5</td><td>91.8</td><td>97.0</td><td>99.3</td><td>76.6</td><td>90.9</td><td>56.0</td><td>98.0</td><td>55.6</td><td><strong>57.9</strong> <span class="gain">↑20%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="table-panel">
+          <p class="table-title">Bench2Drive Closed-Loop Planning <small>Driving score higher is better, Avg. L2 lower is better</small></p>
+          <p class="table-caption"><strong>Caption.</strong> Bench2Drive evaluates planners in CARLA closed loop. Adding TE awareness and topology improves both VAD and DriveTransformer-Large on Driving Score and Success Rate with only small latency changes, demonstrating that the signal transfers beyond open-loop prediction.</p>
+          <div class="table-scroll">
+            <table class="compact">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Avg. L2 ↓</th>
+                  <th>Driving Score ↑</th>
+                  <th>Success Rate (%) ↑</th>
+                  <th>Efficiency ↑</th>
+                  <th>Comfortness ↑</th>
+                  <th>Latency</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="category-row"><td colspan="7">Expert-feature Distillation Baselines</td></tr>
+                <tr><td>TCP*</td><td>1.70</td><td>40.70</td><td>15.00</td><td>54.26</td><td>47.80</td><td>86 ms</td></tr>
+                <tr><td>TCP-ctrl*</td><td>&mdash;</td><td>30.47</td><td>7.27</td><td>55.97</td><td><strong>51.51</strong></td><td>86 ms</td></tr>
+                <tr><td>TCP-traj*</td><td>1.70</td><td>59.90</td><td>30.00</td><td>76.54</td><td>18.08</td><td>86 ms</td></tr>
+                <tr><td>TCP-traj w/o distillation</td><td>1.96</td><td>49.30</td><td>20.45</td><td><strong>78.78</strong></td><td>22.96</td><td>86 ms</td></tr>
+                <tr><td>ThinkTwice*</td><td><strong>0.95</strong></td><td>62.44</td><td>31.23</td><td>69.33</td><td>16.22</td><td>698 ms</td></tr>
+                <tr><td>DriveAdapter*</td><td>1.01</td><td><strong>64.22</strong></td><td><strong>33.08</strong></td><td>70.22</td><td>16.01</td><td>958 ms</td></tr>
+                <tr class="category-row"><td colspan="7">General E2E Baselines</td></tr>
+                <tr><td>AD-MLP</td><td>3.64</td><td>18.05</td><td>0.00</td><td>48.45</td><td>22.63</td><td>4.7 ms</td></tr>
+                <tr><td>UniAD-Tiny</td><td>0.80</td><td>40.73</td><td>13.18</td><td>123.92</td><td><strong>47.04</strong></td><td>400.3 ms</td></tr>
+                <tr><td>UniAD-Base</td><td>0.73</td><td>45.81</td><td>16.36</td><td><strong>129.21</strong></td><td>43.58</td><td>692.6 ms</td></tr>
+                <tr class="category-row"><td colspan="7">Closed-loop TE / Topology Integrations</td></tr>
+                <tr><td>VAD</td><td>0.91</td><td>42.30</td><td>15.00</td><td><strong>157.94</strong></td><td>46.01</td><td>278.3 ms</td></tr>
+                <tr class="highlight"><td>VAD + Ours</td><td><strong>0.75</strong> <span class="gain">-0.16</span></td><td><strong>56.40</strong> <span class="gain">+14.1</span></td><td><strong>21.30</strong></td><td>125.64</td><td><strong>48.02</strong></td><td>282.5 ms</td></tr>
+                <tr><td>DriveTransformer-Large</td><td>0.62</td><td>63.46</td><td>35.01</td><td><strong>100.64</strong></td><td>20.78</td><td>211.7 ms</td></tr>
+                <tr class="highlight"><td>DriveTransformer-Large + Ours</td><td><strong>0.57</strong> <span class="gain">-0.05</span></td><td><strong>68.29</strong> <span class="gain">+4.83</span></td><td><strong>39.61</strong></td><td>82.45</td><td><strong>23.58</strong></td><td>216.5 ms</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="visualizations" class="section-head visual-head">
+          <div>
+            <p class="section-kicker">Qualitative Visualizations</p>
+            <h2>Traffic elements change the planned behavior, not just the score.</h2>
+          </div>
+          <p class="section-copy">
+            We show how TE-aware planners behave in traffic-element-rich intersections, time-varying light states, and synthetic NAVSIM-v2 scenes across different planning paradigms.
+          </p>
+        </div>
+
+        <div class="visual-grid">
+          <figure class="figure-block visual-wide">
+            <img loading="lazy" src="assets/project-page/navsimv2-vis.png" alt="Qualitative comparison on NAVSIM-v2 showing detected traffic elements and trajectory predictions.">
+            <figcaption class="caption">NAVSIM-v2 example: detected traffic elements guide the planner to continue forward while staying lane-consistent.</figcaption>
+          </figure>
+          <figure class="figure-block visual-half">
+            <img loading="lazy" src="assets/project-page/app-navsim-ltf-vis.png" alt="NAVSIM temporal comparison for LTF, LTF plus SimScale, and Ours.">
+            <figcaption class="caption">NAVSIM temporal comparison: front-view traffic elements and corresponding trajectories for LTF, LTF + SimScale, and Ours.</figcaption>
+          </figure>
+          <figure class="figure-block visual-half">
+            <img loading="lazy" src="assets/project-page/app-nuscenes-vad-timeseries.png" alt="nuScenes temporal red-to-green traffic light comparison for VAD and Ours.">
+            <figcaption class="caption">nuScenes time series: as the traffic light changes from red to green, TE-aware planning reacts more consistently across consecutive frames.</figcaption>
+          </figure>
+          <figure class="figure-block visual-wide">
+            <img loading="lazy" src="assets/project-page/app-navsim-diffusiondrive-drivor-vis.png" alt="Synthetic NAVSIM-v2 qualitative comparison for DiffusionDrive, DrivoR, and Ours.">
+            <figcaption class="caption">Synthetic NAVSIM-v2 scenes: Ours stabilizes trajectory generation across diffusion-based and scoring-based planners.</figcaption>
+          </figure>
+          <figure class="figure-block visual-wide">
+            <img loading="lazy" src="assets/project-page/app-nuscenes-vad-vis.png" alt="nuScenes five traffic-element-rich scene comparison between VAD and Ours.">
+            <figcaption class="caption">nuScenes TE-rich scenes: five multi-view cases comparing VAD and Ours with BEV planning visualizations.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="bibtex">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Citation</p>
+            <h2>BibTeX</h2>
+          </div>
+          <p class="section-copy">
+            Please cite this work if the traffic-element annotations, plug-and-play TE supervision, or topology-conditioning design are useful for your research.
+          </p>
+        </div>
+
+        <div class="bibtex">
+          <button class="copy-button" type="button" data-copy-bibtex>Copy</button>
+<pre id="bibtex-entry">@inproceedings{zhang2026plugin,
+  title     = {Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving},
+  author    = {Zhang, Zongzheng and Wang, Jijun and Zhang, Saining and Wang, Shuo and Wang, Yiru and Yang, Hai and Chen, Yang and Heng, Yuwen and Sun, Hao and Jiang, Anqing and Zhao, Hao},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving.
+  </footer>
+
+  <script>
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
+    const navigationEntry = performance.getEntriesByType("navigation")[0];
+    const isReload = navigationEntry && navigationEntry.type === "reload";
+    if (isReload) {
+      if (window.location.hash) {
+        history.replaceState(null, document.title, window.location.pathname + window.location.search);
+      }
+      window.addEventListener("load", () => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      });
+    }
+
+    const copyButton = document.querySelector("[data-copy-bibtex]");
+    copyButton.addEventListener("click", async () => {
+      const bibtex = document.getElementById("bibtex-entry").innerText;
+      try {
+        await navigator.clipboard.writeText(bibtex);
+        copyButton.textContent = "Copied";
+        window.setTimeout(() => {
+          copyButton.textContent = "Copy";
+        }, 1600);
+      } catch (error) {
+        copyButton.textContent = "Select";
+      }
+    });
+  </script>
+</body>
+</html>
