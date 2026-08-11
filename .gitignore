@@ -1,0 +1,61 @@
+# Local reference documentation
+/AGENTS.md
+/README_zh-CN.md
+
+# Local editor and agent settings
+.vscode/
+.idea/
+.agents/
+.codex/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Python environments
+.env
+.env.*
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging and build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Logs and experiment tracking
+*.log
+wandb/
+runs/
+
+# Generated Traffic Element data and analysis artifacts
+/data
+/tmp/
+/traffic_elements/
+
+# Model weights and exported models
+/ultralytics/weights
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.engine
+
+# End-to-end driving datasets and experiment outputs
+/e2e/VAD/data/
+/e2e/VAD/test/
+/e2e/VAD/work_dirs/
