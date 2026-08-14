@@ -2,7 +2,15 @@
 
 > **Accepted by ECCV 2026**
 
-**ArXiv:** Coming Soon | [Project Page](https://zzongzheng0918.github.io/TE-Aware-E2E-AD/) | [Dataset](https://huggingface.co/datasets/Zzz0918/Traffic_Elements)
+<p align="center">
+  <img src="https://img.shields.io/badge/arXiv-Coming%20Soon-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="ArXiv Coming Soon">
+  <a href="https://zzongzheng0918.github.io/TE-Aware-E2E-AD/">
+    <img src="https://img.shields.io/badge/Project-Page-2F8F9D?style=for-the-badge&logo=githubpages&logoColor=white" alt="Project Page">
+  </a>
+  <a href="https://huggingface.co/datasets/Zzz0918/Traffic_Elements">
+    <img src="https://img.shields.io/badge/Dataset-Hugging%20Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=000000" alt="Dataset">
+  </a>
+</p>
 
 
 ## Traffic Elements Generation
