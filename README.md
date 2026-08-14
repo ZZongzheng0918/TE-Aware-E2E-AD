@@ -12,6 +12,7 @@
   </a>
 </p>
 
+This repository contains the official implementation of **Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving**.
 
 ## Traffic Elements Generation
 
