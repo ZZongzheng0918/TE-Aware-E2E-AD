@@ -1,6 +1,10 @@
 # Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving
 
-This repository contains the code for **ECCV 2026: Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving**.
+> **Accepted by ECCV 2026**
+
+**ArXiv:** Coming Soon | [Project Page](https://zzongzheng0918.github.io/TE-Aware-E2E-AD/) | [Dataset](https://huggingface.co/datasets/Zzz0918/Traffic_Elements)
+
+This repository contains the official implementation of **Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving**.
 
 ## Traffic Elements Generation
 
