@@ -10,6 +10,9 @@
   <a href="https://huggingface.co/datasets/Zzz0918/Traffic_Elements">
     <img src="https://img.shields.io/badge/Dataset-Hugging%20Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=000000" alt="Dataset">
   </a>
+  <a href="./LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-3DA639?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="MIT License">
+  </a>
 </p>
 
 This repository contains the official implementation of **Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving**.
@@ -135,3 +138,7 @@ data/
                 └── labels/
                     └── <image_token>.txt
 ```
+
+## License
+
+This project is released under the [MIT License](LICENSE).
