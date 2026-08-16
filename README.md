@@ -25,7 +25,20 @@ Environment reference:
 
 - [Ultralytics](https://github.com/ultralytics/ultralytics)
 
-YOLO weights for 2D Traffic Element detection: **To be released**. Place the downloaded weights at:
+The YOLO weights for 2D Traffic Element detection are available on Hugging Face:
+
+- Weights directory: [`weights/yolo/`](https://huggingface.co/datasets/Zzz0918/Traffic_Elements/tree/main/weights/yolo)
+- Model file: [`best.pt`](https://huggingface.co/datasets/Zzz0918/Traffic_Elements/blob/main/weights/yolo/best.pt)
+
+Download the model directly to the path expected by the inference scripts:
+
+```bash
+mkdir -p ultralytics/weights
+curl -L "https://huggingface.co/datasets/Zzz0918/Traffic_Elements/resolve/main/weights/yolo/best.pt?download=true" \
+  -o ultralytics/weights/best.pt
+```
+
+The resulting directory should be:
 
 ```text
 TE-Aware-E2E-AD/
