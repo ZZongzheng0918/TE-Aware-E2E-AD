@@ -3,7 +3,9 @@
 > **Accepted by ECCV 2026**
 
 <p align="center">
-  <img src="https://img.shields.io/badge/arXiv-Coming%20Soon-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="ArXiv Coming Soon">
+  <a href="https://arxiv.org/abs/2608.18035">
+    <img src="https://img.shields.io/badge/arXiv-2608.18035-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv:2608.18035">
+  </a>
   <a href="https://zzongzheng0918.github.io/TE-Aware-E2E-AD/">
     <img src="https://img.shields.io/badge/Project-Page-2F8F9D?style=for-the-badge&logo=githubpages&logoColor=white" alt="Project Page">
   </a>
