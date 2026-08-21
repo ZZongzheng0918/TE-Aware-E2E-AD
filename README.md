@@ -153,6 +153,19 @@ data/
                     └── <image_token>.txt
 ```
 
+## Citation
+
+If you find this work useful, please cite:
+
+```bibtex
+@article{zhang2026plug,
+  title={Plug-and-Play Traffic Element Awareness for End-to-End Autonomous Driving},
+  author={Zhang, Zongzheng and Wang, Jijun and Zhang, Saining and Wang, Shuo and Wang, Yiru and Yang, Hai and Chen, Yang and Heng, Yuwen and Sun, Hao and Jiang, Anqing and others},
+  journal={arXiv preprint arXiv:2608.18035},
+  year={2026}
+}
+```
+
 ## License
 
 This project is released under the [MIT License](LICENSE).
