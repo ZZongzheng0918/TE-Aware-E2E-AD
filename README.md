@@ -56,8 +56,8 @@ Some nuScenes scenes use OpenLaneV2 2D ground truth, while the remaining scenes 
 python ultralytics/nusc_inference.py \
   --model ultralytics/weights/best.pt \
   --source /path/to/nuscenes/samples/CAM_FRONT \
-  --project traffic_elements \
-  --name nusc_te \
+  --project data/nuscenes \
+  --name traffic_elements_2d \
   --device 0
 ```
 
@@ -70,7 +70,20 @@ python ultralytics/navsim_inference.py \
   --model ultralytics/weights/best.pt \
   --data-root /path/to/navsim/sensor_blobs \
   --splits trainval test \
-  --project traffic_elements/navsim_te \
+  --project data/navsim/traffic_elements_2d \
+  --device 0
+```
+
+#### SimScale
+
+SimScale uses YOLO to generate 2D Traffic Elements for the images listed in its split manifests.
+
+```bash
+python ultralytics/simscale_inference.py \
+  --model ultralytics/weights/best.pt \
+  --data-root /path/to/navsim/sensor_blobs \
+  --manifest-dir ultralytics/simscale_manifests \
+  --project data/simscale/traffic_elements_2d \
   --device 0
 ```
 
@@ -80,6 +93,7 @@ Environment references:
 
 - [UniDepth](https://github.com/lpiccinelli-eth/UniDepth)
 - [OpenLane-V2](https://github.com/OpenDriveLab/OpenLane-V2)
+- [Simscale](https://github.com/OpenDriveLab/SimScale)
 
 Combine the 2D Traffic Elements with UniDepth estimates to generate 3D Traffic Element center points.
 
@@ -91,7 +105,7 @@ CUDA_VISIBLE_DEVICES=0 python UniDepth/nusc_te_gen.py \
   --nusc-version v1.0-trainval \
   --mapping-path UniDepth/mapping_openlane_nusc.json \
   --openlane-root /path/to/OpenLane-V2 \
-  --det-dir traffic_elements/nusc_te/labels \
+  --det-dir data/nuscenes/traffic_elements_2d/labels \
   --save-dir data/nuscenes/traffic_elements \
   --missing-file data/nuscenes/traffic_elements/missing.txt \
   --model-size l \
@@ -105,9 +119,22 @@ CUDA_VISIBLE_DEVICES=0 python UniDepth/nusc_te_gen.py \
 CUDA_VISIBLE_DEVICES=0 python UniDepth/navsim_te_gen.py \
   --log-dir /path/to/navsim/navsim_logs \
   --data-root /path/to/navsim/sensor_blobs \
-  --det-dir traffic_elements/navsim_te \
+  --det-dir data/navsim/traffic_elements_2d \
   --save-dir data/navsim/traffic_elements \
   --splits trainval test \
+  --camera CAM_F0 \
+  --model-size l \
+  --device cuda:0
+```
+
+#### SimScale
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python UniDepth/simscale_te_gen.py \
+  --log-dir /path/to/simscale/navsim_logs \
+  --data-root /path/to/navsim/sensor_blobs \
+  --det-dir data/simscale/traffic_elements_2d \
+  --save-dir data/simscale/traffic_elements \
   --camera CAM_F0 \
   --model-size l \
   --device cuda:0
@@ -121,6 +148,7 @@ CUDA_VISIBLE_DEVICES=0 python UniDepth/navsim_te_gen.py \
 | --- | --- | --- |
 | nuScenes 2D and 3D Traffic Elements | `nuscenes_traffic_elements.tar.gz` | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements) |
 | NAVSIM 2D and 3D Traffic Elements | `navsim_traffic_elements.tar.gz` | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements) |
+| SimScale 2D and 3D Traffic Elements | `simscale_traffic_elements.tar.gz` | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements) |
 
 ### Directory Structure
 
@@ -134,21 +162,31 @@ data/
 │   └── traffic_elements_2d/
 │       └── labels/
 │           └── <image_name>.txt
-└── navsim/
+├── navsim/
+│   ├── traffic_elements/
+│   │   ├── trainval/
+│   │   │   └── <log_name>/
+│   │   │       └── <image_token>.json
+│   │   └── test/
+│   │       └── <log_name>/
+│   │           └── <image_token>.json
+│   └── traffic_elements_2d/
+│       ├── trainval/
+│       │   └── <log_name>/
+│       │       └── labels/
+│       │           └── <image_token>.txt
+│       └── test/
+│           └── <log_name>/
+│               └── labels/
+│                   └── <image_token>.txt
+└── simscale/
     ├── traffic_elements/
-    │   ├── trainval/
-    │   │   └── <log_name>/
-    │   │       └── <image_token>.json
-    │   └── test/
-    │       └── <log_name>/
+    │   └── <split>/
+    │       └── <scene_name>/
     │           └── <image_token>.json
     └── traffic_elements_2d/
-        ├── trainval/
-        │   └── <log_name>/
-        │       └── labels/
-        │           └── <image_token>.txt
-        └── test/
-            └── <log_name>/
+        └── <split>/
+            └── <scene_name>/
                 └── labels/
                     └── <image_token>.txt
 ```

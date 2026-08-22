@@ -28,6 +28,7 @@ def parse_args():
     parser.add_argument("--conf", type=float, default=0.25, help="Confidence threshold.")
     parser.add_argument("--max-det", type=int, default=300, help="Maximum detections per image.")
     parser.add_argument("--classes", type=int, nargs="+", default=DEFAULT_CLASSES, help="Class ids to keep.")
+    parser.add_argument("--save-images", action="store_true", help="Save annotated prediction images.")
     parser.add_argument("--no-augment", action="store_true", help="Disable augmented inference.")
     return parser.parse_args()
 
@@ -43,7 +44,7 @@ def main():
         "source": args.source,
         "save_txt": True,
         "save_conf": True,
-        "save": True,
+        "save": args.save_images,
         "imgsz": args.imgsz,
         "batch": args.batch,
         "conf": args.conf,
