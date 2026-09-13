@@ -17,7 +17,6 @@
   </a>
 </p>
 
-
 ## Traffic Elements Generation
 
 ### 2D Traffic Element Detection
@@ -144,10 +143,10 @@ CUDA_VISIBLE_DEVICES=0 python UniDepth/simscale_te_gen.py \
 
 ### Dataset Downloads
 
-| Dataset | Archive | Download |
-| --- | --- | --- |
+| Dataset                             | Archive                              | Download                                                                |
+| ----------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
 | nuScenes 2D and 3D Traffic Elements | `nuscenes_traffic_elements.tar.gz` | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements) |
-| NAVSIM 2D and 3D Traffic Elements | `navsim_traffic_elements.tar.gz` | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements) |
+| NAVSIM 2D and 3D Traffic Elements   | `navsim_traffic_elements.tar.gz`   | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements) |
 | SimScale 2D and 3D Traffic Elements | `simscale_traffic_elements.tar.gz` | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements) |
 
 ### Directory Structure
@@ -189,6 +188,105 @@ data/
             └── <scene_name>/
                 └── labels/
                     └── <image_token>.txt
+```
+
+## End-to-End Driving on NAVSIM
+
+Environment reference:
+
+- [NAVSIM](https://github.com/autonomousvision/navsim)
+- [DiffusionDrive](https://github.com/hustvl/DiffusionDrive.git)
+
+### Pretrained Weights
+
+The released evaluation checkpoints are available on Hugging Face:
+
+| Agent                            | Hydra config                         | Checkpoint                                                                                                                                                 |
+| -------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| LTF + Ours                       | `ltf_te_agent`                     | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements/blob/main/weights/ltf_te_agent/ltf_te.ckpt)                                         |
+| DiffusionDrive + Ours            | `diffusiondrive_te_agent`          | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements/blob/main/weights/diffusiondrive_te_agent/diffusiondrive_te.ckpt)                   |
+| LTF + SimScale + Ours            | `ltf_te_simscale_agent`            | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements/blob/main/weights/ltf_te_simscale_agent/ltf_te_simscale.ckpt)                       |
+| DiffusionDrive + SimScale + Ours | `diffusiondrive_te_simscale_agent` | [Hugging Face](https://huggingface.co/datasets/Zzz0918/Traffic_Elements/blob/main/weights/diffusiondrive_te_simscale_agent/diffusiondrive_te_simscale.ckpt) |
+
+Place the downloaded checkpoints and traffic elements at the following paths:
+
+```text
+e2e/navsim/exp/
+├── ltf_te_agent/
+│   └── ltf_te.ckpt
+├── diffusiondrive_te_agent/
+│   └── diffusiondrive_te.ckpt
+├── ltf_te_simscale_agent/
+│   └── ltf_te_simscale.ckpt
+├── diffusiondrive_te_simscale_agent/
+│   └── diffusiondrive_te_simscale.ckpt
+└── traffic_elements
+```
+
+### NAVHARD Metric Cache
+
+Generate the shared metric cache once before evaluating an agent:
+
+```bash
+bash e2e/navsim/scripts/traffic_elements/run_navhard_metric_caching.sh
+```
+
+### LTF + Ours
+
+```bash
+# Dataset caching
+bash e2e/navsim/scripts/traffic_elements/run_ltf_te_agent.sh cache
+
+# Training
+bash e2e/navsim/scripts/traffic_elements/run_ltf_te_agent.sh train
+
+# Evaluation on NAVHARD
+bash e2e/navsim/scripts/traffic_elements/run_ltf_te_agent.sh eval
+```
+
+### DiffusionDrive + Ours
+
+```bash
+# Dataset caching
+bash e2e/navsim/scripts/traffic_elements/run_diffusiondrive_te_agent.sh cache
+
+# Training
+bash e2e/navsim/scripts/traffic_elements/run_diffusiondrive_te_agent.sh train
+
+# Evaluation on NAVHARD
+bash e2e/navsim/scripts/traffic_elements/run_diffusiondrive_te_agent.sh eval
+```
+
+### LTF + SimScale + Ours
+
+```bash
+# Dataset caching
+bash e2e/navsim/scripts/traffic_elements/run_ltf_te_simscale_agent.sh cache
+
+# Stage 1: PDM synthetic data
+bash e2e/navsim/scripts/traffic_elements/run_ltf_te_simscale_agent.sh pdm
+
+# Stage 2: Recovery synthetic data
+bash e2e/navsim/scripts/traffic_elements/run_ltf_te_simscale_agent.sh recovery
+
+# Evaluation on NAVHARD
+bash e2e/navsim/scripts/traffic_elements/run_ltf_te_simscale_agent.sh eval
+```
+
+### DiffusionDrive + SimScale + Ours
+
+```bash
+# Dataset caching
+bash e2e/navsim/scripts/traffic_elements/run_diffusiondrive_te_simscale_agent.sh cache
+
+# Stage 1: PDM synthetic data
+bash e2e/navsim/scripts/traffic_elements/run_diffusiondrive_te_simscale_agent.sh pdm
+
+# Stage 2: Recovery synthetic data
+bash e2e/navsim/scripts/traffic_elements/run_diffusiondrive_te_simscale_agent.sh recovery
+
+# Evaluation on NAVHARD
+bash e2e/navsim/scripts/traffic_elements/run_diffusiondrive_te_simscale_agent.sh eval
 ```
 
 ## Citation

@@ -59,3 +59,4 @@ runs/
 /e2e/VAD/data/
 /e2e/VAD/test/
 /e2e/VAD/work_dirs/
+/e2e/exp
